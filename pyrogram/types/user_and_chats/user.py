@@ -145,6 +145,9 @@ class User(Object, Update):
             You can use ``user.mention()`` to mention the user using their first name (styled using html), or
             ``user.mention("another name")`` for a custom name. To choose a different style
             ("html" or "md"/"markdown") use ``user.mention(style="md")``.
+
+        full_name (``str``, *optional*):
+            User's or bot's full name.
     """
 
     def __init__(
@@ -202,6 +205,10 @@ class User(Object, Update):
         self.phone_number = phone_number
         self.photo = photo
         self.restrictions = restrictions
+
+    @property
+    def full_name(self) -> str:
+        return " ".join(filter(None, [self.first_name, self.last_name])) or None
 
     @property
     def mention(self):
