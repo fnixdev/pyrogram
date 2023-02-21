@@ -887,6 +887,22 @@ class Message(Object, Update):
             message_id=self.id
         )
 
+
+    async def input(self):
+        """ Returns the input string without command """
+        input_ = self.text
+        if ' ' in input_ or '\n' in input_:
+            return str(input_.split(maxsplit=1)[1].strip())
+        return ''
+
+
+    async def input_or_reply(self):
+        """ Returns the input string  or replied msg text without command """
+        input_ = self.input
+        if not input_ and self.reply_to_message:
+            input_ = (self.reply_to_message.text or self.reply_to_message.caption or '').strip()
+        return input_
+
     async def reply_text(
         self,
         text: str,
